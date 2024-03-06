@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 10px;
+    background: #eee;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 22px); /* Adjust width to ensure padding doesn't expand beyond desired width */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #5cb85c;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+.nav {
+    margin-bottom: 20px;
+}
+
+.nav a, .task-actions a {
+    text-decoration: none;
+    color: white;
+    background-color: #5cb85c;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.nav a:hover, .task-actions a:hover {
+    background-color: #4cae4c;
+}
+
+.task-actions {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+p {
+    text-align: center;
+}
+
+.message {
+    color: red; /* Change as needed */
+    text-align: center;
+    margin-bottom: 20px;
+}
