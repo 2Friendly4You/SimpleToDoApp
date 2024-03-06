@@ -1,3 +1,19 @@
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -32,7 +48,8 @@ ul li {
 
 input[type="text"],
 input[type="password"] {
-    width: calc(100% - 22px); /* Adjust width to ensure padding doesn't expand beyond desired width */
+    width: calc(100% - 22px);
+    /* Adjust width to ensure padding doesn't expand beyond desired width */
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
@@ -57,16 +74,45 @@ input[type="submit"]:hover {
     margin-bottom: 20px;
 }
 
-.nav a, .task-actions a {
+.nav a,
+.task-actions a,
+button,
+input[type="submit"] {
+    display: inline-block;
     text-decoration: none;
     color: white;
-    background-color: #5cb85c;
+    background-color: #4cae4c;
     padding: 10px 15px;
     border-radius: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    /* Adjusted for box-shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Initial subtle shadow */
+    border: none;
+    /* No border for buttons */
+    cursor: pointer;
 }
 
-.nav a:hover, .task-actions a:hover {
-    background-color: #4cae4c;
+.nav a:hover,
+.task-actions a:hover,
+button:hover,
+input[type="submit"]:hover {
+    background-color: #5cb85c;
+    /* Accent color on hover */
+    transform: translateY(-2px);
+    /* Move up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    /* Larger shadow for lifted effect */
+}
+
+.nav a:active,
+.task-actions a:active,
+button:active,
+input[type="submit"]:active {
+    transform: translateY(1px);
+    /* Move down slightly to simulate press */
+    /* Keeping box-shadow on active state might need adjustment based on your design preferences */
 }
 
 .task-actions {
@@ -79,7 +125,17 @@ p {
 }
 
 .message {
-    color: red; /* Change as needed */
+    color: red;
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 20px;
+    /* Add space above the message */
+    padding: 10px;
+    /* Optional: add padding inside the message box for better text visibility */
+    background-color: #ffefef;
+    /* Optional: add a light background color to highlight the message */
+    border-radius: 5px;
+    /* Optional: round corners for the message box */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Optional: add a subtle shadow for depth */
 }
