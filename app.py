@@ -3,11 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
-app.config['SECRET_KEY'] = 'your-secret-key'  # Required for session management
+# Configuring from environment variables
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///default.sqlite')
 
 db = SQLAlchemy(app)
 login_manager = LoginManager()
@@ -18,6 +23,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
+    tasks = db.relationship('Task', backref='user', lazy='dynamic', cascade="all, delete-orphan")
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -97,6 +103,43 @@ def register():
             return redirect(url_for('index'))
 
     return render_template('register.html', message=message)
+
+@app.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    message = ''
+    if request.method == 'POST':
+        old_password = request.form['old_password']
+        new_password = request.form['new_password']
+        confirm_new_password = request.form['confirm_new_password']
+
+        user = current_user
+
+        if not user.check_password(old_password):
+            message = 'Old password is incorrect.'
+        elif new_password != confirm_new_password:
+            message = 'New passwords do not match.'
+        else:
+            user.set_password(new_password)
+            db.session.commit()
+            message = 'Your password has been updated.'
+            return redirect(url_for('index'))  # Optionally, you can redirect after successful password change
+
+    return render_template('change_password.html', message=message)
+
+@app.route('/delete_account', methods=['GET', 'POST'])
+@login_required
+def delete_account():
+    if request.method == 'POST':
+        user_id = current_user.id
+        user = User.query.get(user_id)
+        db.session.delete(user)
+        db.session.commit()
+        logout_user()
+        return redirect(url_for('login'))
+
+    # Assume GET request will confirm account deletion
+    return render_template('delete_account_confirm.html')
 
 
 @app.route('/logout')

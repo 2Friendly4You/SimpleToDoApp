@@ -8,8 +8,11 @@
 </head>
 <body>
     <div class="nav">
+        <a href="/">Home</a>
+        <a href="/change_password">Change Password</a>
+        <a href="/delete_account">Delete Account</a>
         <a href="/logout">Logout</a>
-    </div>
+    </div>    
     <div class="container">
         <h1>ToDo List</h1>
         <ul>
@@ -24,6 +27,9 @@
             <input type="text" name="content" placeholder="Add new task">
             <input type="submit" value="Add">
         </form>
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
     </div>
 </body>
 </html>
