@@ -13,6 +13,7 @@ app = Flask(__name__)
 # Configuring from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///default.sqlite')
+app.config['MIN_PASSWORD_LENGTH'] = int(os.getenv('MIN_PASSWORD_LENGTH', 8))
 
 db = SQLAlchemy(app)
 login_manager = LoginManager()
@@ -94,6 +95,8 @@ def register():
             message = 'Passwords do not match.'
         elif User.query.filter_by(username=username).first():
             message = 'Username already exists.'
+        elif len(password) < app.config['MIN_PASSWORD_LENGTH']:
+            message = f'Password must be at least {app.config["MIN_PASSWORD_LENGTH"]} characters long.'
         else:
             user = User(username=username)
             user.set_password(password)
@@ -119,6 +122,8 @@ def change_password():
             message = 'Old password is incorrect.'
         elif new_password != confirm_new_password:
             message = 'New passwords do not match.'
+        elif len(new_password) < app.config['MIN_PASSWORD_LENGTH']:
+            message = f'New password must be at least {app.config["MIN_PASSWORD_LENGTH"]} characters long.'
         else:
             user.set_password(new_password)
             db.session.commit()
